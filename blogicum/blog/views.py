@@ -1,7 +1,5 @@
 from datetime import datetime
 
-from typing import Any
-
 from django.shortcuts import get_object_or_404, render, get_list_or_404
 
 from .models import Post, Category
