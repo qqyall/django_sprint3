@@ -4,14 +4,21 @@ from django.shortcuts import get_object_or_404, render, get_list_or_404
 
 from .models import Post, Category
 
+from .consts import NUMBER_OF_POSTS_ON_MAIN_PAGE
 
-def index(request):
-    template = 'blog/index.html'
-    post_list = Post.objects.all().filter(
+
+def post_published_filter():
+    return Post.objects.all().filter(
         is_published=True,
         category__is_published=True,
         pub_date__lt=datetime.utcnow()
-    ).order_by('-created_at')[:5]
+    )
+
+
+def index(request):
+    template = 'blog/index.html'
+    post_list = post_published_filter(
+    ).order_by('-created_at')[:NUMBER_OF_POSTS_ON_MAIN_PAGE]
 
     context = {
         'post_list': post_list
@@ -22,11 +29,7 @@ def index(request):
 def post_detail(request, post_id):
     template = 'blog/detail.html'
     post = get_object_or_404(
-        Post.objects.filter(
-            is_published=True,
-            category__is_published=True,
-            pub_date__lt=datetime.utcnow()
-        ),
+        post_published_filter(),
         pk=post_id
     )
 
@@ -39,11 +42,7 @@ def post_detail(request, post_id):
 def category_posts(request, category_slug):
     template = 'blog/category.html'
     post_list = get_list_or_404(
-        Post.objects.filter(
-            is_published=True,
-            category__is_published=True,
-            pub_date__lt=datetime.utcnow()
-        ),
+        post_published_filter(),
         category__slug=category_slug
     )
 

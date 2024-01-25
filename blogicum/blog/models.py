@@ -4,29 +4,26 @@ from core.models import PublishedModel, CreatedAtModel
 
 from django.contrib.auth import get_user_model
 
+from .consts import STR_MAX_LENGTH
+
 User = get_user_model()
 
 
 class Category(PublishedModel, CreatedAtModel):
     id = models.IntegerField(primary_key=True)
     title = models.CharField(
-        max_length=256, blank=False, verbose_name=("Заголовок"))
-    description = models.TextField(blank=False, verbose_name=("Описание"))
+        max_length=STR_MAX_LENGTH,
+        verbose_name="Заголовок"
+    )
+    description = models.TextField(
+        verbose_name="Описание"
+    )
     slug = models.SlugField(
         unique=True,
-        blank=False,
         verbose_name="Идентификатор",
         help_text=("Идентификатор страницы для URL; "
                    "разрешены символы латиницы, цифры, дефис и подчёркивание.")
     )
-    is_published = models.BooleanField(
-        default=True,
-        blank=False,
-        verbose_name=("Опубликовано"),
-        help_text="Снимите галочку, чтобы скрыть публикацию."
-    )
-    created_at = models.DateTimeField(
-        auto_now_add=True, blank=False, verbose_name=("Добавлено"))
 
     class Meta:
         verbose_name = "категория"
@@ -39,28 +36,29 @@ class Category(PublishedModel, CreatedAtModel):
 class Location(PublishedModel, CreatedAtModel):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(
-        max_length=256, blank=False, verbose_name=("Название места"))
-    is_published = models.BooleanField(
-        default=True, blank=False, verbose_name=("Опубликовано"))
-    created_at = models.DateTimeField(
-        auto_now_add=True, blank=False, verbose_name=("Добавлено"))
+        max_length=STR_MAX_LENGTH,
+        verbose_name="Название места"
+    )
 
     class Meta:
         verbose_name = "местоположение"
         verbose_name_plural = "Местоположения"
 
     def __str__(self):
-        return self.title
+        return self.name
 
 
 class Post(PublishedModel, CreatedAtModel):
     id = models.IntegerField(primary_key=True)
     title = models.CharField(
-        max_length=256, blank=False, verbose_name=("Заголовок"))
-    text = models.TextField(blank=False, verbose_name=("Текст"))
+        max_length=STR_MAX_LENGTH,
+        verbose_name=("Заголовок")
+    )
+    text = models.TextField(
+        verbose_name=("Текст")
+    )
     pub_date = models.DateTimeField(
-        blank=False,
-        verbose_name=("Дата и время публикации"),
+        verbose_name="Дата и время публикации",
         help_text=("Если установить дату и время в будущем "
                    "— можно делать отложенные публикации.")
     )
@@ -83,10 +81,6 @@ class Post(PublishedModel, CreatedAtModel):
         on_delete=models.SET_NULL,
         null=True
     )
-    is_published = models.BooleanField(
-        default=True, blank=False, verbose_name=("Опубликовано"))
-    created_at = models.DateTimeField(
-        auto_now_add=True, blank=False, verbose_name=("Добавлено"))
 
     class Meta:
         verbose_name = "публикация"
