@@ -1,8 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 
-from core.models import PublishedModel, CreatedAtModel
-
-from django.contrib.auth import get_user_model
+from core.models import CreatedAtModel, PublishedModel
 
 from .consts import STR_MAX_LENGTH
 
@@ -52,10 +51,10 @@ class Post(PublishedModel, CreatedAtModel):
     id = models.IntegerField(primary_key=True)
     title = models.CharField(
         max_length=STR_MAX_LENGTH,
-        verbose_name=("Заголовок")
+        verbose_name="Заголовок"
     )
     text = models.TextField(
-        verbose_name=("Текст")
+        verbose_name="Текст"
     )
     pub_date = models.DateTimeField(
         verbose_name="Дата и время публикации",
@@ -64,20 +63,19 @@ class Post(PublishedModel, CreatedAtModel):
     )
     author = models.ForeignKey(
         User,
-        verbose_name=("Автор публикации"),
+        verbose_name="Автор публикации",
         on_delete=models.CASCADE,
-        blank=False
     )
     location = models.ForeignKey(
         Location,
-        verbose_name=("Местоположение"),
+        verbose_name="Местоположение",
         on_delete=models.SET_NULL,
         null=True,
         blank=True
     )
     category = models.ForeignKey(
         Category,
-        verbose_name=("Категория"),
+        verbose_name="Категория",
         on_delete=models.SET_NULL,
         null=True
     )

@@ -1,10 +1,9 @@
 from datetime import datetime
 
-from django.shortcuts import get_object_or_404, render, get_list_or_404
-
-from .models import Post, Category
+from django.shortcuts import get_list_or_404, get_object_or_404, render
 
 from .consts import NUMBER_OF_POSTS_ON_MAIN_PAGE
+from .models import Category, Post
 
 
 def post_published_filter():

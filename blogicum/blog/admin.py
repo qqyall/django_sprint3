@@ -8,6 +8,7 @@ class PostCategoryInline(admin.StackedInline):
     extra = 0
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     inlines = [
         PostCategoryInline
@@ -34,6 +35,7 @@ class PostLocationInline(admin.StackedInline):
     extra = 0
 
 
+@admin.register(Location)
 class LocationAdmin(admin.ModelAdmin):
     inlines = [
         PostLocationInline
@@ -51,6 +53,7 @@ class LocationAdmin(admin.ModelAdmin):
     empty_value_display = 'Не задано'
 
 
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = [
         'title',
@@ -68,8 +71,3 @@ class PostAdmin(admin.ModelAdmin):
         'text',
     ]
     empty_value_display = 'Не задано'
-
-
-admin.site.register(Post, PostAdmin)
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Location, LocationAdmin)
